@@ -25,63 +25,64 @@
         <button class="profile__add-button" type="button"></button>
       </section>
       <section class="elements">
-        <div class="element">
-          <img class="element__image" src="./images/азовское.jpg" alt="Азовское море">
-          <div class="element__description">
-            <h2 class="element__title">Азовское море</h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </div>
-        <div class="element">
-          <img class="element__image" src="./images/васюганские.jpg" alt="Васюганские болота">
-          <div class="element__description">
-            <h2 class="element__title">Васюганские болота</h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </div>
-        <div class="element">
-          <img class="element__image" src="./images/кижи.jpg" alt="Кижи">
-          <div class="element__description">
-            <h2 class="element__title">Кижи</h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </div>
-        <div class="element">
-          <img class="element__image" src="./images/ленские_столбы.jpg" alt="Ленские Столбы">
-          <div class="element__description">
-            <h2 class="element__title">Ленские Столбы</h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </div>
-        <div class="element">
-          <img class="element__image" src="./images/оймякон2.jpg" alt="Оймякон">
-          <div class="element__description">
-            <h2 class="element__title">Оймякон</h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </div>
-        <div class="element">
-          <img class="element__image" src="./images/свияжск.jpg" alt="Свияжск">
-          <div class="element__description">
-            <h2 class="element__title">Свияжск</h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </div>
+        <ul class="elements__list">
+          <li class="element">
+            <img class="element__image" src="./images/азовское.jpg" alt="Азовское море">
+            <div class="element__description">
+              <h2 class="element__title">Азовское море</h2>
+              <button class="element__like-button" type="button"></button>
+            </div>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/васюганские.jpg" alt="Васюганские болота">
+            <div class="element__description">
+              <h2 class="element__title">Васюганские болота</h2>
+              <button class="element__like-button" type="button"></button>
+            </div>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/кижи.jpg" alt="Кижи">
+            <div class="element__description">
+              <h2 class="element__title">Кижи</h2>
+              <button class="element__like-button" type="button"></button>
+            </div>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/ленские_столбы.jpg" alt="Ленские Столбы">
+            <div class="element__description">
+              <h2 class="element__title">Ленские Столбы</h2>
+              <button class="element__like-button" type="button"></button>
+            </div>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/оймякон2.jpg" alt="Оймякон">
+            <div class="element__description">
+              <h2 class="element__title">Оймякон</h2>
+              <button class="element__like-button" type="button"></button>
+            </div>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/свияжск.jpg" alt="Свияжск">
+            <div class="element__description">
+              <h2 class="element__title">Свияжск</h2>
+              <button class="element__like-button" type="button"></button>
+            </div>
+          </li>
+        </ul>
+
       </section>
       <div class="popup">
         <div class="popup__container">
           <button class="popup__close-button" type="button"></button>
           <h2 class="popup__title">Редактировать профиль</h2>
           <form class="form">
-            <div class="form__main-container">
-              <label class="form__label">
-                <input type="text" class="form__item" id="firstname" name="firstname" placeholder="Жак-Ив Кусто">
-              </label>
-              <label class="form__label">
-                <input type="text" class="form__item" id="job" name="job" placeholder="Исследователь океана">
+            <label class="form__label">
+              <input type="text" class="form__item" id="firstname" name="firstname" placeholder="Жак-Ив Кусто">
             </label>
-              <button type="submit" class="form__button">Сохранить</button>
-            </div>
+            <label class="form__label">
+              <input type="text" class="form__item" id="job" name="job" placeholder="Исследователь океана">
+            </label>
+            <button type="submit" class="form__button">Сохранить</button>
           </form>
         </div>
       </div>

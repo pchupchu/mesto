@@ -9,15 +9,10 @@ let formElement = document.querySelector('.form');
 let nameInput = document.querySelector('#firstname');
 let jobInput = document.querySelector('#job');
 
-function addValue() {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileDesc.textContent;
-}
-
-addValue();
-
 function open() {
   popup.classList.add('popup_opened');
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileDesc.textContent;
 }
 
 editBtn.addEventListener('click', open);
@@ -32,7 +27,7 @@ function formSubmitHandler (evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileDesc.textContent = jobInput.value;
+  close();
 };
 
 formElement.addEventListener('submit', formSubmitHandler);
-formElement.addEventListener('submit', close);
