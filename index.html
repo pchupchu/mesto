@@ -28,6 +28,7 @@
         <ul class="elements__list">
           <li class="element">
             <img class="element__image" src="./images/азовское.jpg" alt="Азовское море">
+            <button class="element__trash-button" type="button"></button>
             <div class="element__description">
               <h2 class="element__title">Азовское море</h2>
               <button class="element__like-button" type="button"></button>
@@ -35,6 +36,7 @@
           </li>
           <li class="element">
             <img class="element__image" src="./images/васюганские.jpg" alt="Васюганские болота">
+            <button class="element__trash-button" type="button"></button>
             <div class="element__description">
               <h2 class="element__title">Васюганские болота</h2>
               <button class="element__like-button" type="button"></button>
@@ -42,6 +44,7 @@
           </li>
           <li class="element">
             <img class="element__image" src="./images/кижи.jpg" alt="Кижи">
+            <button class="element__trash-button" type="button"></button>
             <div class="element__description">
               <h2 class="element__title">Кижи</h2>
               <button class="element__like-button" type="button"></button>
@@ -49,6 +52,7 @@
           </li>
           <li class="element">
             <img class="element__image" src="./images/ленские_столбы.jpg" alt="Ленские Столбы">
+            <button class="element__trash-button" type="button"></button>
             <div class="element__description">
               <h2 class="element__title">Ленские Столбы</h2>
               <button class="element__like-button" type="button"></button>
@@ -56,6 +60,7 @@
           </li>
           <li class="element">
             <img class="element__image" src="./images/оймякон2.jpg" alt="Оймякон">
+            <button class="element__trash-button" type="button"></button>
             <div class="element__description">
               <h2 class="element__title">Оймякон</h2>
               <button class="element__like-button" type="button"></button>
@@ -63,15 +68,15 @@
           </li>
           <li class="element">
             <img class="element__image" src="./images/свияжск.jpg" alt="Свияжск">
+            <button class="element__trash-button" type="button"></button>
             <div class="element__description">
               <h2 class="element__title">Свияжск</h2>
               <button class="element__like-button" type="button"></button>
             </div>
           </li>
         </ul>
-
       </section>
-      <div class="popup">
+      <div class="popup popup_type_edit-profile">
         <div class="popup__container">
           <button class="popup__close-button" type="button"></button>
           <h2 class="popup__title">Редактировать профиль</h2>
@@ -84,6 +89,28 @@
             </label>
             <button type="submit" class="form__button">Сохранить</button>
           </form>
+        </div>
+      </div>
+      <div class="popup popup_type_add-image">
+        <div class="popup__container">
+          <button class="popup__close-button" type="button"></button>
+          <h2 class="popup__title">Новое место</h2>
+          <form class="form">
+            <label class="form__label">
+              <input type="text" class="form__item" id="imagename" name="imagename" placeholder="Название">
+            </label>
+            <label class="form__label">
+              <input type="url" class="form__item" id="imageurl" name="imageurl" placeholder="Ссылка на картинку">
+            </label>
+            <button type="submit" class="form__button">Создать</button>
+          </form>
+        </div>
+      </div>
+      <div class="popup popup_type_image">
+        <div class="popup__image-container">
+          <button class="popup__close-button" type="button"></button>
+          <img class="popup__image-card" id="image" src="./images/азовское.jpg" alt="Азовское море">
+          <h2 class="popup__image-title">Азовское море</h2>
         </div>
       </div>
     </main>

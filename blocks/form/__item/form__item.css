@@ -16,28 +16,28 @@
 
 .form__item::placeholder {
   font-family: inherit;
-  color: #000;
+  color: #C4C4C4;
   font-size: 14px;
   line-height: 1.21;
 }
 
 .form__item::-webkit-input-placeholder {
   font-family: inherit;
-  color: #000;
+  color: #C4C4C4;
   font-size: 14px;
   line-height: 1.21;
 }
 
 .form__item::-moz-placeholder {
   font-family: inherit;
-  color: #000;
+  color: #C4C4C4;
   font-size: 14px;
   line-height: 1.21;
 }
 
 .form__item::-ms-input-placeholder {
   font-family: inherit;
-  color: #000;
+  color: #C4C4C4;
   font-size: 14px;
   line-height: 1.21;
 }

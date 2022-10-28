@@ -5,6 +5,7 @@
   background-color: #000;
   color: #fff;
   font-size: 18px;
+  line-height: 1.21;
   cursor: pointer;
   margin-top: 18px;
   opacity: 1;
@@ -19,6 +20,5 @@
   .form__button {
     margin-top: 15px;
     font-size: 14px;
-    line-height: 1.21;
   }
 }
