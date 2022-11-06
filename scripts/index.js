@@ -16,6 +16,10 @@ const popupAddImage = document.querySelector('.popup_type_add-image');
 const likeBtns = document.querySelectorAll('.element__like-button');
 const trashBtns = document.querySelectorAll('.element__trash-button');
 
+const images = document.querySelectorAll('.element__image');
+const popupImage = document.querySelector('.popup_type_image');
+const popupImageTitle = document.querySelector('.popup__image-title');
+
 // open popup
 function openPopup(popupItem) {
   popupItem.classList.add('popup_opened');
@@ -73,19 +77,17 @@ trashBtns.forEach((button) => {
 })
 
 //open card
-const cardImage = document.querySelector('.element__image');
-const popupImage = document.querySelector('.popup_type_image');
-console.log(popupImage);
+images.forEach((item) => {
+  item.addEventListener('click', function(evt) {
+    const cardItem = item.closest('.element');
+    openPopup(popupImage);
 
-function openImage() {
-  const popupImage = document.querySelector('.popup_type_image');
-  openPopup(popupImage);
-}
+    const imageTitle = cardItem.querySelector('.element__title');
+    popupImageTitle.textContent = imageTitle.textContent;
 
-// cards.forEach((item) => {
-//   // const popupImage = document.querySelector('.popup_type_image');
-//   item.addEventListener('click', openPopup(popupImage))
-// })
-
-cardImage.addEventListener('click', openImage);
+    const imageCard = document.querySelector('.popup__image-card');
+    const image = cardItem.querySelector('.element__image');
+    imageCard.src = image.src;
+  })
+ })
 
