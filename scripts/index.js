@@ -1,8 +1,10 @@
 const cardTemplate = document.querySelector('#template').content;
 
+const popups = document.querySelectorAll('.popup');
+const closeBtns = document.querySelectorAll('.popup__close-button');
+
 const editBtn = document.querySelector('.profile__edit-button');
 const popupEditProfile = document.querySelector('.popup_type_edit-profile');
-const closeBtns = document.querySelectorAll('.popup__close-button');
 
 const profileName = document.querySelector('.profile__name');
 const profileDesc = document.querySelector('.profile__description');
@@ -25,8 +27,8 @@ const imageNameInput = document.querySelector('#imagename');
 const imageUrlInput = document.querySelector('#imageurl');
 
 // open popup
-function openPopup(popupItem) {
-  popupItem.classList.add('popup_opened');
+function openPopup(popupElement) {
+  popupElement.classList.add('popup_opened');
 }
 
 // close popup
@@ -38,6 +40,25 @@ closeBtns.forEach((button) => {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(popup));
 })
+
+popups.forEach((popupElement) => {
+  popupElement.addEventListener('click', (event) => {
+    if(event.target.classList.contains('popup_opened')) {
+      console.log(popupElement);
+      closePopup(popupElement);
+    }
+  })
+})
+
+popups.forEach((popupElement) => {
+  document.addEventListener('keydown', (event) => {
+    if(event.key === 'Escape') {
+      console.log('escape pressed');
+      closePopup(popupElement);
+    }
+  })
+})
+
 
 // open edit form
 function openEditForm() {
@@ -81,8 +102,7 @@ function addCard(cardName, cardUrl) {
 
   // delete card
   cardElement.querySelector('.element__trash-button').addEventListener('click', function(evt) {
-    const cardItem = cardElement.querySelector('.element__trash-button').closest('.element');
-    cardItem.remove();
+    cardElement.remove();
   })
 
   // open card
