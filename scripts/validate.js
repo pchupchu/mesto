@@ -43,8 +43,10 @@ const hasInvalidItem = (itemList) => {
 const toggleBtn = (button, itemList, settingsObj) => {
   if (hasInvalidItem(itemList)) {
     button.classList.add(settingsObj.inactiveButtonClass);
+    button.disabled = true;
   } else {
     button.classList.remove(settingsObj.inactiveButtonClass);
+    button.disabled = false;
   }
 };
 

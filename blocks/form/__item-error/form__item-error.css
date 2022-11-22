@@ -12,3 +12,9 @@
   max-width: 358px;
   margin-top: 5px;
 }
+
+@media screen and (max-width: 576px) {
+  .form__item-error {
+    max-width: 238px;
+  }
+}
