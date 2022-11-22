@@ -29,43 +29,42 @@ const imageUrlInput = document.querySelector('#imageurl');
 // open popup
 function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
-}
+  document.addEventListener('keydown', closePopupByEsc);
+};
 
 // close popup
 function closePopup(popupOpened) {
   popupOpened.classList.remove('popup_opened');
-}
+};
 
 closeBtns.forEach((button) => {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(popup));
-})
+});
 
+// close with overlay
 popups.forEach((popupElement) => {
   popupElement.addEventListener('click', (event) => {
     if(event.target.classList.contains('popup_opened')) {
-      console.log(popupElement);
       closePopup(popupElement);
     }
   })
-})
+});
 
-popups.forEach((popupElement) => {
-  document.addEventListener('keydown', (event) => {
-    if(event.key === 'Escape') {
-      console.log('escape pressed');
-      closePopup(popupElement);
-    }
-  })
-})
-
+// close by esc
+function closePopupByEsc(evt) {
+  if(evt.key === 'Escape') {
+    const popupOpened = document.querySelector('.popup_opened');
+    closePopup(popupOpened);
+  }
+};
 
 // open edit form
 function openEditForm() {
   openPopup(popupEditProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileDesc.textContent;
-}
+};
 
 editBtn.addEventListener('click', openEditForm);
 
@@ -75,14 +74,14 @@ function handleSubmitForm (evt) {
   profileName.textContent = nameInput.value;
   profileDesc.textContent = jobInput.value;
   closePopup(popupEditProfile);
-}
+};
 
 formElementProfile.addEventListener('submit', handleSubmitForm);
 
 // open add image
 function openAddImage() {
   openPopup(popupAddImage);
-}
+};
 
 addBtn.addEventListener('click', openAddImage);
 
@@ -98,32 +97,30 @@ function addCard(cardName, cardUrl) {
   // like card
   cardElement.querySelector('.element__like-button').addEventListener('click', function(evt) {
     evt.target.classList.toggle('element__like-button_active');
-  })
+  });
 
   // delete card
   cardElement.querySelector('.element__trash-button').addEventListener('click', function(evt) {
     cardElement.remove();
-  })
+  });
 
   // open card
   imageElement.addEventListener('click', function(evt) {
-      const cardItem = imageElement.closest('.element');
       openPopup(popupImage);
-
       popupImageTitle.textContent = cardName;
       popupImageCard.src = cardUrl;
       popupImageCard.alt = cardName;
-    })
+    });
 
     cardsContainer.prepend(cardElement);
-}
+};
 
 function handleSubmitCard (evt) {
   evt.preventDefault();
   addCard(imageNameInput.value, imageUrlInput.value);
   evt.target.reset();
   closePopup(popupAddImage);
-}
+};
 
 formElementCard.addEventListener('submit', handleSubmitCard);
 

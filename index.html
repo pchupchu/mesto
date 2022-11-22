@@ -32,12 +32,14 @@
         <div class="popup__container">
           <button class="popup__close-button" type="button"></button>
           <h2 class="popup__title">Редактировать профиль</h2>
-          <form class="form form_profile">
+          <form class="form form_profile" novalidate>
             <label class="form__label">
-              <input type="text" class="form__item" id="firstname" name="firstname" placeholder="Жак-Ив Кусто">
+              <input type="text" class="form__item" id="firstname" name="firstname" placeholder="Ваше имя" minlength="2" maxlength="40" required>
+              <span class="form__item-error firstname-error"></span>
             </label>
             <label class="form__label">
-              <input type="text" class="form__item" id="job" name="job" placeholder="Исследователь океана">
+              <input type="text" class="form__item" id="job" name="job" placeholder="Ваша профессия" minlength="2" maxlength="200" required>
+              <span class="form__item-error job-error"></span>
             </label>
             <button type="submit" class="form__button">Сохранить</button>
           </form>
@@ -47,12 +49,14 @@
         <div class="popup__container">
           <button class="popup__close-button" type="button"></button>
           <h2 class="popup__title">Новое место</h2>
-          <form class="form form_card">
+          <form class="form form_card" novalidate>
             <label class="form__label">
-              <input type="text" class="form__item" id="imagename" name="imagename" placeholder="Название">
+              <input type="text" class="form__item" id="imagename" name="imagename" placeholder="Название" minlength="2" maxlength="30" required>
+              <span class="form__item-error imagename-error"></span>
             </label>
             <label class="form__label">
-              <input type="url" class="form__item" id="imageurl" name="imageurl" placeholder="Ссылка на картинку">
+              <input type="url" class="form__item" id="imageurl" name="imageurl" placeholder="Ссылка на картинку" required>
+              <span class="form__item-error imageurl-error"></span>
             </label>
             <button type="submit" class="form__button">Создать</button>
           </form>
@@ -82,5 +86,6 @@
   </template>
   <script src="./scripts/cards.js"></script>
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 </html>
