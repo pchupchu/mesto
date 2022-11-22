@@ -64,6 +64,8 @@ function openEditForm() {
   openPopup(popupEditProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileDesc.textContent;
+  const button = popupEditProfile.querySelector('.form__button');
+  button.classList.remove(settingsObj.inactiveButtonClass);
 };
 
 editBtn.addEventListener('click', openEditForm);
@@ -81,6 +83,8 @@ formElementProfile.addEventListener('submit', handleSubmitForm);
 // open add image
 function openAddImage() {
   openPopup(popupAddImage);
+  const button = popupAddImage.querySelector('.form__button');
+  button.classList.add(settingsObj.inactiveButtonClass);
 };
 
 addBtn.addEventListener('click', openAddImage);

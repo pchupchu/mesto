@@ -8,16 +8,15 @@ const settingsObj = {
 };
 
 // add error text
-const showError = (form, item, errorMessage) => {
+const showError = (form, item, errorMessage, settingsObj) => {
   const error = form.querySelector(`.${item.id}-error`);
-  console.log(error);
   item.classList.add(settingsObj.inputErrorClass);
   error.textContent = errorMessage;
   error.classList.add(settingsObj.errorClass);
 };
 
 // hide error text
-const hideError = (form, item) => {
+const hideError = (form, item, settingsObj) => {
   const error = form.querySelector(`.${item.id}-error`);
   item.classList.remove(settingsObj.inputErrorClass);
   error.classList.remove(settingsObj.errorClass);
@@ -25,11 +24,11 @@ const hideError = (form, item) => {
 };
 
 // check the inputs for validity
-const checkValidity = (form, item) => {
+const checkValidity = (form, item, settingsObj) => {
   if (!item.validity.valid) {
-    showError(form, item, item.validationMessage);
+    showError(form, item, item.validationMessage, settingsObj);
   } else {
-    hideError(form, item);
+    hideError(form, item, settingsObj);
   }
 };
 
@@ -41,7 +40,7 @@ const hasInvalidItem = (itemList) => {
 };
 
 // toggle button state
-const toggleBtn = (itemList, button) => {
+const toggleBtn = (button, itemList, settingsObj) => {
   if (hasInvalidItem(itemList)) {
     button.classList.add(settingsObj.inactiveButtonClass);
   } else {
@@ -50,14 +49,14 @@ const toggleBtn = (itemList, button) => {
 };
 
 // call the checkValidity for each symbol input
-const setEventListeners = (form) => {
+const setEventListeners = (form, settingsObj) => {
   const itemList = Array.from(form.querySelectorAll(settingsObj.inputSelector));
   const button = form.querySelector(settingsObj.submitButtonSelector);
-  toggleBtn(itemList, button);
+  toggleBtn(button, itemList, settingsObj);
   itemList.forEach((item) => {
     item.addEventListener('input', () => {
-      checkValidity(form, item);
-      toggleBtn(itemList, button);
+      checkValidity(form, item, settingsObj);
+      toggleBtn(button, itemList, settingsObj);
     });
   });
 };
@@ -66,7 +65,7 @@ const setEventListeners = (form) => {
 const enableValidation = (settingsObj) => {
   const formList = Array.from(document.querySelectorAll(settingsObj.formSelector));
   formList.forEach((form) => {
-    setEventListeners(form);
+    setEventListeners(form, settingsObj);
   });
 };
 
