@@ -66,7 +66,7 @@ const openEditForm = () => {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDesc.textContent;
   const button = popupEditProfile.querySelector('.form__button');
-  activeBtn(button, settingsObj);
+  enableBtn(button, settingsObj);
 };
 
 btnOpenEditing.addEventListener('click', openEditForm);
@@ -85,7 +85,7 @@ formElementProfile.addEventListener('submit', handleSubmitForm);
 const openAddImage = () => {
   openPopup(popupAddImage);
   const button = popupAddImage.querySelector('.form__button');
-  inactiveBtn(button, settingsObj);
+  disableBtn(button, settingsObj);
 };
 
 btnOpenAdding.addEventListener('click', openAddImage);

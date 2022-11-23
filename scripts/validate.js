@@ -40,21 +40,21 @@ const hasInvalidItem = (itemList) => {
 };
 
 // toggle button state
-const inactiveBtn = (button, settingsObj) => {
+const disableBtn = (button, settingsObj) => {
   button.classList.add(settingsObj.inactiveButtonClass);
   button.disabled = true;
 }
 
-const activeBtn = (button, settingsObj) => {
+const enableBtn = (button, settingsObj) => {
   button.classList.remove(settingsObj.inactiveButtonClass);
   button.disabled = false;
 }
 
 const toggleBtn = (button, itemList, settingsObj) => {
   if (hasInvalidItem(itemList)) {
-    inactiveBtn(button, settingsObj);
+    disableBtn(button, settingsObj);
   } else {
-    activeBtn(button, settingsObj);
+    enableBtn(button, settingsObj);
   }
 };
 
