@@ -102,28 +102,28 @@ const deleteCard = (evt) => {
 }
 
 //open card
-const openImage = (cardName, cardUrl) => {
+const openImage = (card) => {
   openPopup(popupImage);
-  popupImageTitle.textContent = cardName;
-  popupImageCard.src = cardUrl;
-  popupImageCard.alt = cardName;
+  popupImageTitle.textContent = card.name;
+  popupImageCard.src = card.link;
+  popupImageCard.alt = card.name;
 }
 
 // add new card
-const addCard = (cardName, cardUrl) => {
+const addCard = (card) => {
   const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
   const imageElement = cardElement.querySelector('.element__image');
   const btnLike = cardElement.querySelector('.element__like-button');
   const btnDelete = cardElement.querySelector('.element__trash-button');
 
-  cardElement.querySelector('.element__title').textContent = cardName;
-  imageElement.src = cardUrl;
-  imageElement.alt = cardName;
+  cardElement.querySelector('.element__title').textContent = card.name;
+  imageElement.src = card.link;
+  imageElement.alt = card.name;
 
   btnLike.addEventListener('click', toggleLike);
   btnDelete.addEventListener('click', deleteCard);
   imageElement.addEventListener('click', (evt) => {
-    openImage(cardName, cardUrl);
+    openImage(card);
   });
 
   return cardElement;
@@ -131,7 +131,11 @@ const addCard = (cardName, cardUrl) => {
 
 const handleSubmitCard = (evt) => {
   evt.preventDefault();
-  const cardElement = addCard(imageNameInput.value, imageUrlInput.value);
+  const card = {
+    name: imageNameInput.value,
+    link: imageUrlInput.value
+  };
+  const cardElement = addCard(card);
   evt.target.reset();
   cardsContainer.prepend(cardElement);
   closePopup(popupAddImage);
@@ -141,6 +145,6 @@ formElementCard.addEventListener('submit', handleSubmitCard);
 
 // initial cards
 initialCards.forEach((item) => {
-  const cardElement = addCard(item.name, item.link);
+  const cardElement = addCard(item);
   cardsContainer.prepend(cardElement);
 });
