@@ -1,3 +1,5 @@
+import Card from "./Card.js";
+
 const cardTemplate = document.querySelector('#template').content;
 
 const popups = document.querySelectorAll('.popup');
@@ -16,9 +18,9 @@ const jobInput = document.querySelector('#job');
 const btnOpenAdding = document.querySelector('.profile__add-button');
 const popupAddImage = document.querySelector('.popup_type_add-image');
 
-const popupImage = document.querySelector('.popup_type_image');
-const popupImageTitle = document.querySelector('.popup__image-title');
-const popupImageCard = document.querySelector('.popup__image-card');
+export const popupImage = document.querySelector('.popup_type_image');
+export const popupImageTitle = document.querySelector('.popup__image-title');
+export const popupImageCard = document.querySelector('.popup__image-card');
 
 const cardsContainer = document.querySelector('.elements__list');
 
@@ -26,8 +28,35 @@ const formElementCard = document.querySelector('.form_card');
 const imageNameInput = document.querySelector('#imagename');
 const imageUrlInput = document.querySelector('#imageurl');
 
+const initialCards = [
+  {
+    name: 'Сочи',
+    link: 'https://images.unsplash.com/photo-1605551004124-dee241ed2c9d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80'
+  },
+  {
+    name: 'Краснодарский край',
+    link: 'https://images.unsplash.com/photo-1582948818260-ad04bc825512?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://images.unsplash.com/photo-1578401161046-a2542d17fb27?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80'
+  },
+  {
+    name: 'Алтай',
+    link: 'https://images.unsplash.com/photo-1626538481998-0629afebd684?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+  },
+  {
+    name: 'Онежское озеро',
+    link: 'https://images.unsplash.com/photo-1543699936-c901ddbf0c05?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=386&q=80'
+  },
+  {
+    name: 'Тулиновка',
+    link: 'https://images.unsplash.com/photo-1516128935666-9742cf27e24c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80'
+  }
+];
+
 // open popup
-const openPopup = (popupElement) => {
+export const openPopup = (popupElement) => {
   popupElement.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupByEsc);
 };
@@ -90,43 +119,11 @@ const openAddImage = () => {
 
 btnOpenAdding.addEventListener('click', openAddImage);
 
-// like card
-const toggleLike = (evt) => {
-  evt.target.classList.toggle('element__like-button_active');
-};
-
-// delete card
-const deleteCard = (evt) => {
-  const cardElement = evt.target.closest('.element');
-  cardElement.remove();
-}
-
-//open card
-const openImage = (card) => {
-  openPopup(popupImage);
-  popupImageTitle.textContent = card.name;
-  popupImageCard.src = card.link;
-  popupImageCard.alt = card.name;
-}
-
 // add new card
-const addCard = (card) => {
-  const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
-  const imageElement = cardElement.querySelector('.element__image');
-  const btnLike = cardElement.querySelector('.element__like-button');
-  const btnDelete = cardElement.querySelector('.element__trash-button');
-
-  cardElement.querySelector('.element__title').textContent = card.name;
-  imageElement.src = card.link;
-  imageElement.alt = card.name;
-
-  btnLike.addEventListener('click', toggleLike);
-  btnDelete.addEventListener('click', deleteCard);
-  imageElement.addEventListener('click', (evt) => {
-    openImage(card);
-  });
-
-  return cardElement;
+const addCard = (item) => {
+  const card = new Card(item, '.element-template');
+  const cardElement = card.generateCard();
+  cardsContainer.prepend(cardElement);
 };
 
 const handleSubmitCard = (evt) => {
@@ -135,9 +132,8 @@ const handleSubmitCard = (evt) => {
     name: imageNameInput.value,
     link: imageUrlInput.value
   };
-  const cardElement = addCard(card);
+  addCard(card);
   evt.target.reset();
-  cardsContainer.prepend(cardElement);
   closePopup(popupAddImage);
 };
 
@@ -145,6 +141,5 @@ formElementCard.addEventListener('submit', handleSubmitCard);
 
 // initial cards
 initialCards.forEach((item) => {
-  const cardElement = addCard(item);
-  cardsContainer.prepend(cardElement);
+  addCard(item);
 });
