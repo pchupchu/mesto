@@ -1,6 +1,5 @@
 import Card from "./Card.js";
-
-const cardTemplate = document.querySelector('#template').content;
+import FormValidator from "./FormValidator.js";
 
 const popups = document.querySelectorAll('.popup');
 const popupCloseBtns = document.querySelectorAll('.popup__close-button');
@@ -27,6 +26,17 @@ const cardsContainer = document.querySelector('.elements__list');
 const formElementCard = document.querySelector('.form_card');
 const imageNameInput = document.querySelector('#imagename');
 const imageUrlInput = document.querySelector('#imageurl');
+
+const settings = {
+  formSelector: '.form',
+  inputSelector: '.form__item',
+  submitButtonSelector: '.form__button',
+  inactiveButtonClass: 'form__button_inactive',
+  inputErrorClass: 'form__item_type_error',
+  errorClass: 'form__item-error_active'
+};
+
+const formList = Array.from(document.querySelectorAll(settings.formSelector));
 
 const initialCards = [
   {
@@ -89,13 +99,24 @@ const closePopupByEsc = (evt) => {
   }
 };
 
+// enable and disable buttons
+const disableBtn = (button, settings) => {
+  button.classList.add(settings.inactiveButtonClass);
+  button.disabled = true;
+};
+
+const enableBtn = (button, settings) => {
+  button.classList.remove(settings.inactiveButtonClass);
+  button.disabled = false;
+};
+
 // open edit form
 const openEditForm = () => {
   openPopup(popupEditProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileDesc.textContent;
   const button = popupEditProfile.querySelector('.form__button');
-  enableBtn(button, settingsObj);
+  enableBtn(button, settings);
 };
 
 btnOpenEditing.addEventListener('click', openEditForm);
@@ -114,7 +135,7 @@ formElementProfile.addEventListener('submit', handleSubmitForm);
 const openAddImage = () => {
   openPopup(popupAddImage);
   const button = popupAddImage.querySelector('.form__button');
-  disableBtn(button, settingsObj);
+  disableBtn(button, settings);
 };
 
 btnOpenAdding.addEventListener('click', openAddImage);
@@ -142,4 +163,9 @@ formElementCard.addEventListener('submit', handleSubmitCard);
 // initial cards
 initialCards.forEach((item) => {
   addCard(item);
+});
+
+formList.forEach(form => {
+  const item = new FormValidator(settings, form);
+  item.enableValidation(settings);
 });
