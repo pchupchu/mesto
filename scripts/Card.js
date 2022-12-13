@@ -1,10 +1,9 @@
-import {openPopup, popupImage, popupImageTitle, popupImageCard} from "./index.js";
-
 export default class Card {
-  constructor(item, templateSelector) {
+  constructor(item, templateSelector, handleOpenPopup) {
     this._name = item.name;
     this._link = item.link;
     this._templateSelector = templateSelector;
+    this._handleOpenPopup = handleOpenPopup;
   };
 
   _getTemplate() {
@@ -21,40 +20,35 @@ export default class Card {
     this._element = this._getTemplate();
     this._setEventListeners();
 
-    this._element.querySelector('.element__image').src = this._link;
-    this._element.querySelector('.element__image').alt = this._name;
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._name;
     this._element.querySelector('.element__title').textContent = this._name;
 
     return this._element;
   };
 
   _setEventListeners() {
-    this._element.querySelector('.element__like-button').addEventListener('click', () => {
+    this._likeButton = this._element.querySelector('.element__like-button');
+    this._cardImage = this._element.querySelector('.element__image');
+    this._likeButton.addEventListener('click', () => {
       this._likeCard();
     });
     this._element.querySelector('.element__trash-button').addEventListener('click', () => {
       this._deleteCard();
     });
-    this._element.querySelector('.element__image').addEventListener('click', () => {
-      this._openImage();
+    this._cardImage.addEventListener('click', () => {
+      this._handleOpenPopup(this._name, this._link);
     });
   };
 
   // like card
   _likeCard() {
-    this._element.querySelector('.element__like-button').classList.toggle('element__like-button_active');
+    this._likeButton.classList.toggle('element__like-button_active');
   };
 
   // delete card
   _deleteCard() {
-    this._element.querySelector('.element__trash-button').closest('.element').remove();
-  };
-
-  // open popup with image
-  _openImage() {
-    openPopup(popupImage);
-    popupImageTitle.textContent = this._name;
-    popupImageCard.src = this._link;
-    popupImageCard.alt = this._name;
+    this._element.remove();
+    this._element = null;
   };
 };

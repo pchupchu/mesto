@@ -10,7 +10,7 @@ export default class FormValidator {
   }
 
   // add error text
-  _showError(form, item, errorMessage) {
+  _showError(item, errorMessage) {
     const error = this._form.querySelector(`.${item.id}-error`);
     item.classList.add(this._inputErrorClass);
     error.textContent = errorMessage;
@@ -18,7 +18,7 @@ export default class FormValidator {
   };
 
   // hide error text
-  _hideError(form, item) {
+  _hideError(item) {
     const error = this._form.querySelector(`.${item.id}-error`);
     item.classList.remove(this._inputErrorClass);
     error.classList.remove(this._errorClass);
@@ -26,58 +26,63 @@ export default class FormValidator {
   };
 
   // check the inputs for validity
-  _checkValidity(form, item, settings) {
+  _checkValidity(item) {
     if (!item.validity.valid) {
-      this._showError(form, item, item.validationMessage);
+      this._showError(item, item.validationMessage);
     } else {
-      this._hideError(form, item);
+      this._hideError(item);
     }
   };
 
   // check invalid inputs
-  _hasInvalidItem(itemList) {
-    return itemList.some((item) => {
+  _hasInvalidItem() {
+    return this._itemList.some((item) => {
       return !item.validity.valid;
     })
   };
 
   // toggle button state
-  _disableBtn (button) {
-    button.classList.add(this._inactiveButtonClass);
-    button.disabled = true;
+  disableBtn () {
+    this._button.classList.add(this._inactiveButtonClass);
+    this._button.disabled = true;
   };
 
-  _enableBtn(button) {
-    button.classList.remove(this._inactiveButtonClass);
-    button.disabled = false;
+  enableBtn() {
+    this._button.classList.remove(this._inactiveButtonClass);
+    this._button.disabled = false;
   };
 
-  _toggleBtn (button, itemList) {
-    if (this._hasInvalidItem(itemList)) {
-      this._disableBtn(button);
+  _toggleBtn () {
+    if (this._hasInvalidItem()) {
+      this.disableBtn();
     } else {
-      this._enableBtn(button);
-    }
+      this.enableBtn();
+    };
+  };
+
+  // reset errors
+  resetValidation() {
+    this._toggleBtn();
+    this._itemList.forEach((inputElement) => {
+      this._hideError(inputElement)
+    });
   };
 
   // call the checkValidity for each symbol input
-  _setEventListeners(form, settings) {
-    const itemList = Array.from(this._form.querySelectorAll(this._inputSelector));
-    const button = this._form.querySelector(this._submitButtonSelector);
-    this._toggleBtn(button, itemList);
-    itemList.forEach((item) => {
+  _setEventListeners() {
+    this._itemList = Array.from(this._form.querySelectorAll(this._inputSelector));
+    this._button = this._form.querySelector(this._submitButtonSelector);
+    this._toggleBtn();
+    this._itemList.forEach((item) => {
       item.addEventListener('input', () => {
-        this._checkValidity(form, item, settings);
-        this._toggleBtn(button, itemList);
+        this._checkValidity(item);
+        this._toggleBtn();
       });
     });
   };
 
   // validation
-  enableValidation(settings) {
-    const formList = Array.from(document.querySelectorAll(this._formSelector));
-    formList.forEach((form) => {
-      this._setEventListeners(form, settings);
-    });
+  enableValidation() {
+    this._setEventListeners();
   };
 }

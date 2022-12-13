@@ -17,9 +17,9 @@ const jobInput = document.querySelector('#job');
 const btnOpenAdding = document.querySelector('.profile__add-button');
 const popupAddImage = document.querySelector('.popup_type_add-image');
 
-export const popupImage = document.querySelector('.popup_type_image');
-export const popupImageTitle = document.querySelector('.popup__image-title');
-export const popupImageCard = document.querySelector('.popup__image-card');
+const popupImage = document.querySelector('.popup_type_image');
+const popupImageTitle = document.querySelector('.popup__image-title');
+const popupImageCard = document.querySelector('.popup__image-card');
 
 const cardsContainer = document.querySelector('.elements__list');
 
@@ -35,8 +35,6 @@ const settings = {
   inputErrorClass: 'form__item_type_error',
   errorClass: 'form__item-error_active'
 };
-
-const formList = Array.from(document.querySelectorAll(settings.formSelector));
 
 const initialCards = [
   {
@@ -99,24 +97,15 @@ const closePopupByEsc = (evt) => {
   }
 };
 
-// enable and disable buttons
-const disableBtn = (button, settings) => {
-  button.classList.add(settings.inactiveButtonClass);
-  button.disabled = true;
-};
-
-const enableBtn = (button, settings) => {
-  button.classList.remove(settings.inactiveButtonClass);
-  button.disabled = false;
-};
-
 // open edit form
 const openEditForm = () => {
   openPopup(popupEditProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileDesc.textContent;
-  const button = popupEditProfile.querySelector('.form__button');
-  enableBtn(button, settings);
+  const profileValidation = new FormValidator(settings, formElementProfile);
+  profileValidation.enableValidation();
+  profileValidation.enableBtn();
+  profileValidation.resetValidation();
 };
 
 btnOpenEditing.addEventListener('click', openEditForm);
@@ -134,17 +123,31 @@ formElementProfile.addEventListener('submit', handleSubmitForm);
 // open add image
 const openAddImage = () => {
   openPopup(popupAddImage);
-  const button = popupAddImage.querySelector('.form__button');
-  disableBtn(button, settings);
+  const newCardValidation = new FormValidator(settings, formElementCard);
+  newCardValidation.enableValidation();
+  newCardValidation.disableBtn();
+  newCardValidation.resetValidation();
 };
 
 btnOpenAdding.addEventListener('click', openAddImage);
 
+//open popup with image
+function handleOpenPopup(name, link) {
+  popupImageCard.src = link;
+  popupImageCard.alt = name;
+  popupImageTitle.textContent = name;
+  openPopup(popupImage);
+};
+
 // add new card
 const addCard = (item) => {
-  const card = new Card(item, '.element-template');
+  const card = new Card(item, '.element-template', handleOpenPopup);
   const cardElement = card.generateCard();
-  cardsContainer.prepend(cardElement);
+  return cardElement;
+};
+
+const createCard = (cardElement) => {
+  cardsContainer.prepend(addCard(cardElement));
 };
 
 const handleSubmitCard = (evt) => {
@@ -153,7 +156,7 @@ const handleSubmitCard = (evt) => {
     name: imageNameInput.value,
     link: imageUrlInput.value
   };
-  addCard(card);
+  createCard(card);
   evt.target.reset();
   closePopup(popupAddImage);
 };
@@ -162,10 +165,5 @@ formElementCard.addEventListener('submit', handleSubmitCard);
 
 // initial cards
 initialCards.forEach((item) => {
-  addCard(item);
-});
-
-formList.forEach(form => {
-  const item = new FormValidator(settings, form);
-  item.enableValidation(settings);
+  createCard(item);
 });
