@@ -33,8 +33,6 @@ const handleSubmitForm = (evt) => {
 formElementProfile.addEventListener('submit', handleSubmitForm);
 
 // open add image
-
-
 const openAddImage = () => {
   popupAddCard.open();
   const newCardValidation = new FormValidator(settings, formElementCard);
@@ -53,31 +51,20 @@ const  handleCardClick = (name, link) => {
 };
 
 // add new card
-const addCard = (item) => {
-  const card = new Card(item, '.element-template', handleCardClick);
-  const cardElement = card.generateCard();
-  return cardElement;
-};
-
-const createCard = (cardElement) => {
-  cardsContainer.prepend(addCard(cardElement));
-};
-
-const handleSubmitCard = (evt) => {
-  evt.preventDefault();
-  const card = {
+const handleSubmitCard = () => {
+  const cardsObj = {
     name: imageNameInput.value,
     link: imageUrlInput.value
   };
-  createCard(card);
-  //evt.target.reset();
+  const card = new Card(cardsObj, '.element-template', handleCardClick);
+  const cardElement = card.generateCard();
+  cardsContainer.prepend(cardElement);
   popupAddCard.close();
 };
 
 const popupAddCard = new PopupWithForm(popupAddImage, handleSubmitCard);
 
-formElementCard.addEventListener('submit', handleSubmitCard);
-
+// initial cards
 const initialCardList = new Section(
   {
     items: initialCards,
@@ -88,7 +75,5 @@ const initialCardList = new Section(
     }
   },
   '.elements__list');
-
-
 
   initialCardList.renderer();
