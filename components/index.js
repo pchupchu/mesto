@@ -1,19 +1,23 @@
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
 import Section from "./Section.js";
-import Popup from "./Popup.js";
 import PopupWithForm from "./PopupWithForm.js";
 import PopupWithImage from "./PopupWithImage.js";
+import UserInfo from "./UserInfo.js";
 import { popups, popupCloseBtns, btnOpenEditing, popupEditProfile, profileName, profileDesc, formElementProfile, nameInput, jobInput, btnOpenAdding, popupAddImage, popupImage, popupImageTitle, popupImageCard, cardsContainer, formElementCard, imageNameInput, imageUrlInput, settings, initialCards } from "../utils/constants.js";
 
-
-const popupProfile = new Popup(popupEditProfile);
+const profileInfo = new UserInfo({
+  userName: profileName,
+  userDesc:  profileDesc
+});
 
 // open edit form
 const openEditForm = () => {
   popupProfile.open();
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileDesc.textContent;
+
+  const infoFromPage = profileInfo.getUserInfo();
+  nameInput.value = infoFromPage.userName;
+  jobInput.value = infoFromPage.userDesc;
   const profileValidation = new FormValidator(settings, formElementProfile);
   profileValidation.enableValidation();
   profileValidation.enableBtn();
@@ -23,14 +27,12 @@ const openEditForm = () => {
 btnOpenEditing.addEventListener('click', openEditForm);
 
 // submit edit form
-const handleSubmitForm = (evt) => {
-  evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileDesc.textContent = jobInput.value;
-  popupProfile.close();
+const handleSubmitForm = () => {
+  profileInfo.setUserInfo(nameInput.value, jobInput.value);
 };
 
-formElementProfile.addEventListener('submit', handleSubmitForm);
+const popupProfile = new PopupWithForm(popupEditProfile, handleSubmitForm);
+popupProfile.setEventListeners();
 
 // open add image
 const openAddImage = () => {
@@ -59,10 +61,10 @@ const handleSubmitCard = () => {
   const card = new Card(cardsObj, '.element-template', handleCardClick);
   const cardElement = card.generateCard();
   cardsContainer.prepend(cardElement);
-  popupAddCard.close();
 };
 
 const popupAddCard = new PopupWithForm(popupAddImage, handleSubmitCard);
+popupAddCard.setEventListeners();
 
 // initial cards
 const initialCardList = new Section(
