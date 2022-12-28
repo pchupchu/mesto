@@ -54,12 +54,21 @@ const  handleCardClick = (name, link) => {
   imageCard.open(name, link);
 };
 
+/*const addCard = (item) => {
+  const card = new Card(item, '.element-template', handleCardClick);
+  const cardElement = card.generateCard();
+  return cardElement;
+};
+
+};*/
+
 // add new card
 const handleSubmitCard = () => {
   const cardsObj = {
     name: imageNameInput.value,
     link: imageUrlInput.value
   };
+
   const card = new Card(cardsObj, '.element-template', handleCardClick);
   const cardElement = card.generateCard();
   cardsContainer.prepend(cardElement);
