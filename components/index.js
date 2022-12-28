@@ -47,6 +47,7 @@ btnOpenAdding.addEventListener('click', openAddImage);
 
 //popup with image
 const imageCard = new PopupWithImage(popupImage);
+imageCard.setEventListeners();
 
 const  handleCardClick = (name, link) => {
   imageCard.open(name, link);
