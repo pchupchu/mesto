@@ -7,6 +7,13 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
 import { btnOpenEditing, popupEditProfile, profileName, profileDesc, formElementProfile, nameInput, jobInput, btnOpenAdding, popupAddImage, popupImage, cardsContainer, formElementCard, imageNameInput, imageUrlInput, settings, initialCards } from "../utils/constants.js";
 
+// validation
+const profileValidation = new FormValidator(settings, formElementProfile);
+profileValidation.enableValidation();
+
+const newCardValidation = new FormValidator(settings, formElementCard);
+newCardValidation.enableValidation();
+
 const profileInfo = new UserInfo({
   userName: profileName,
   userDesc:  profileDesc
@@ -19,8 +26,6 @@ const openEditForm = () => {
   const infoFromPage = profileInfo.getUserInfo();
   nameInput.value = infoFromPage.userName;
   jobInput.value = infoFromPage.userDesc;
-  const profileValidation = new FormValidator(settings, formElementProfile);
-  profileValidation.enableValidation();
   profileValidation.enableBtn();
   profileValidation.resetValidation();
 };
@@ -38,8 +43,6 @@ popupProfile.setEventListeners();
 // open add image
 const openAddImage = () => {
   popupAddCard.open();
-  const newCardValidation = new FormValidator(settings, formElementCard);
-  newCardValidation.enableValidation();
   newCardValidation.disableBtn();
   newCardValidation.resetValidation();
 };
@@ -54,24 +57,21 @@ const  handleCardClick = (name, link) => {
   imageCard.open(name, link);
 };
 
-/*const addCard = (item) => {
+// add new card
+const addCard = (item) => {
   const card = new Card(item, '.element-template', handleCardClick);
   const cardElement = card.generateCard();
   return cardElement;
 };
 
-};*/
-
-// add new card
 const handleSubmitCard = () => {
   const cardsObj = {
     name: imageNameInput.value,
     link: imageUrlInput.value
   };
 
-  const card = new Card(cardsObj, '.element-template', handleCardClick);
-  const cardElement = card.generateCard();
-  cardsContainer.prepend(cardElement);
+  const cardElement = addCard(cardsObj);
+  initialCardList.addItem(cardElement);
 };
 
 const popupAddCard = new PopupWithForm(popupAddImage, handleSubmitCard);
@@ -82,8 +82,7 @@ const initialCardList = new Section(
   {
     items: initialCards,
     renderer: (item) => {
-      const card = new Card(item, '.element-template', handleCardClick);
-      const cardElement = card.generateCard();
+      const cardElement = addCard(item);
       initialCardList.addItem(cardElement);
     }
   },
