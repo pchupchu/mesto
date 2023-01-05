@@ -14,7 +14,9 @@
     <main class="content">
       <section class="profile">
         <div class="profile__card">
-          <img class="profile__avatar" src="<%=require('./images/kusto.jpg')%>" alt="Жак Ив Кусто">
+          <div class="profile__avatar">
+            <div class="profile__hover-avatar"></div>
+          </div>
           <div class="profile__info">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
             <button class="profile__edit-button" type="button"></button>
@@ -66,6 +68,28 @@
           <button class="popup__close-button" type="button"></button>
           <img class="popup__image-card" id="image" src="#" alt="#">
           <h2 class="popup__image-title"></h2>
+        </div>
+      </div>
+      <div class="popup popup_type_delete-card">
+        <div class="popup__container popup__delete-container">
+          <button class="popup__close-button" type="button"></button>
+          <h2 class="popup__title popup__title-to-delete">Вы уверены?</h2>
+          <form class="form form_deliting" novalidate>
+            <button type="submit" class="form__button form__button-to-delete">Да</button>
+          </form>
+        </div>
+      </div>
+      <div class="popup popup_type_add-avatar">
+        <div class="popup__container popup__avatar-container">
+          <button class="popup__close-button" type="button"></button>
+          <h2 class="popup__title popup__avatar-title">Обновить аватар</h2>
+          <form class="form form_card" novalidate>
+            <label class="form__label">
+              <input type="url" class="form__item" id="avatarurl" name="avatarurl" placeholder="Ссылка на картинку" required>
+              <span class="form__item-error imageurl-error"></span>
+            </label>
+            <button type="submit" class="form__button">Сохранить</button>
+          </form>
         </div>
       </div>
     </main>
