@@ -6,7 +6,7 @@ import Popup from '../components/Popup';
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
-import { btnOpenEditing, popupEditProfile, profileName, profileDesc, formElementProfile, nameInput, jobInput, btnOpenAdding, popupAddImage, popupImage, cardsContainer, formElementCard, imageNameInput, imageUrlInput, settings, initialCards } from "../utils/constants.js";
+import { avatar, avatarInput, formElementAvatar, popupAddAvatar, btnOpenEditing, popupEditProfile, profileName, profileDesc, formElementProfile, nameInput, jobInput, btnOpenAdding, popupAddImage, popupImage, cardsContainer, formElementCard, imageNameInput, imageUrlInput, settings, initialCards } from "../utils/constants.js";
 
 // validation
 const profileValidation = new FormValidator(settings, formElementProfile);
@@ -15,10 +15,28 @@ profileValidation.enableValidation();
 const newCardValidation = new FormValidator(settings, formElementCard);
 newCardValidation.enableValidation();
 
+const avatarValidation = new FormValidator(settings, formElementAvatar);
+avatarValidation.enableValidation();
+
 const profileInfo = new UserInfo({
   userName: profileName,
   userDesc:  profileDesc
 });
+
+const openAddAvatar = () => {
+  popupAvatar.open();
+  avatarValidation.resetValidation();
+}
+
+avatar.addEventListener('click', openAddAvatar);
+
+const handleSubmitAvatar = () => {
+  const inputUrl = avatarInput.value;
+  avatar.style.backgroundImage = `url(${inputUrl})`;
+}
+
+const popupAvatar = new PopupWithForm(popupAddAvatar, handleSubmitAvatar);
+popupAvatar.setEventListeners();
 
 // open edit form
 const openEditForm = () => {
@@ -27,7 +45,6 @@ const openEditForm = () => {
   const infoFromPage = profileInfo.getUserInfo();
   nameInput.value = infoFromPage.userName;
   jobInput.value = infoFromPage.userDesc;
-  profileValidation.enableBtn();
   profileValidation.resetValidation();
 };
 
@@ -44,7 +61,6 @@ popupProfile.setEventListeners();
 // open add image
 const openAddImage = () => {
   popupAddCard.open();
-  newCardValidation.disableBtn();
   newCardValidation.resetValidation();
 };
 

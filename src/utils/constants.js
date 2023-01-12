@@ -1,6 +1,11 @@
 export const popups = document.querySelectorAll('.popup');
 export const popupCloseBtns = document.querySelectorAll('.popup__close-button');
 
+export const avatar = document.querySelector('.profile__avatar');
+export const avatarInput = document.querySelector('#avatarurl');
+export const formElementAvatar = document.querySelector('.form_avatar');
+export const popupAddAvatar = document.querySelector('.popup_type_add-avatar');
+
 export const btnOpenEditing = document.querySelector('.profile__edit-button');
 export const popupEditProfile = document.querySelector('.popup_type_edit-profile');
 
