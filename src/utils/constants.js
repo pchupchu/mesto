@@ -1,8 +1,8 @@
 export const popups = document.querySelectorAll('.popup');
 export const popupCloseBtns = document.querySelectorAll('.popup__close-button');
 
-export const avatar = document.querySelector('.profile__avatar');
-export const avatarInput = document.querySelector('#avatarurl');
+export const avatar = document.querySelector('.profile__avatar-container');
+export const avatarInput = document.querySelector('#avatar');
 export const formElementAvatar = document.querySelector('.form_avatar');
 export const popupAddAvatar = document.querySelector('.popup_type_add-avatar');
 
@@ -11,10 +11,11 @@ export const popupEditProfile = document.querySelector('.popup_type_edit-profile
 
 export const profileName = document.querySelector('.profile__name');
 export const profileDesc = document.querySelector('.profile__description');
+export const profileAvatar = document.querySelector('.profile__avatar');
 
 export const formElementProfile = document.querySelector('.form_profile');
-export const nameInput = document.querySelector('#firstname');
-export const jobInput = document.querySelector('#job');
+export const nameInput = document.querySelector('#name');
+export const jobInput = document.querySelector('#about');
 
 export const btnOpenAdding = document.querySelector('.profile__add-button');
 export const popupAddImage = document.querySelector('.popup_type_add-image');

@@ -6,7 +6,7 @@ import Popup from '../components/Popup';
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
-import { avatar, avatarInput, formElementAvatar, popupAddAvatar, btnOpenEditing, popupEditProfile, profileName, profileDesc, formElementProfile, nameInput, jobInput, btnOpenAdding, popupAddImage, popupImage, cardsContainer, formElementCard, imageNameInput, imageUrlInput, settings, initialCards } from "../utils/constants.js";
+import { avatar, avatarInput, formElementAvatar, popupAddAvatar, btnOpenEditing, popupEditProfile, profileName, profileDesc, profileAvatar, formElementProfile, nameInput, jobInput, btnOpenAdding, popupAddImage, popupImage, cardsContainer, formElementCard, imageNameInput, imageUrlInput, settings, initialCards } from "../utils/constants.js";
 
 // validation
 const profileValidation = new FormValidator(settings, formElementProfile);
@@ -20,7 +20,8 @@ avatarValidation.enableValidation();
 
 const profileInfo = new UserInfo({
   userName: profileName,
-  userDesc:  profileDesc
+  userDesc:  profileDesc,
+  userAvatar: profileAvatar
 });
 
 const openAddAvatar = () => {
@@ -31,8 +32,7 @@ const openAddAvatar = () => {
 avatar.addEventListener('click', openAddAvatar);
 
 const handleSubmitAvatar = () => {
-  const inputUrl = avatarInput.value;
-  avatar.style.backgroundImage = `url(${inputUrl})`;
+  profileInfo.setUserAvatar(avatarInput.value);
 }
 
 const popupAvatar = new PopupWithForm(popupAddAvatar, handleSubmitAvatar);
