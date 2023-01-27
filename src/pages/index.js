@@ -26,7 +26,6 @@ api.getProfileInfo()
   profileName.textContent = res.name;
   profileDesc.textContent = res.about;
   profileAvatar.src = res.avatar;
-
 });
 
 api.getInitialCards()
@@ -74,6 +73,12 @@ const handleSubmitAvatar = () => {
   .then((res) => {
     profileInfo.setUserAvatar(res.avatar)
   })
+  .catch((err) => {
+    renderError(`Ошибка: ${err}`)
+  })
+  .finally(() => {
+    popupAvatar.saving(false)
+  })
 }
 
 const popupAvatar = new PopupWithForm(popupAddAvatar, handleSubmitAvatar);
@@ -99,6 +104,12 @@ const handleProfileForm = () => {
   api.setProfileInfo(user)
   .then((res) => {
     profileInfo.setUserInfo(res.name, res.about)
+  })
+  .catch((err) => {
+    renderError(`Ошибка: ${err}`)
+  })
+  .finally(() => {
+    popupProfile.saving(false)
   })
 };
 
@@ -140,7 +151,7 @@ const handleSetLike = (cardObj) => {
       //cardObj.delete()
     })
     .catch((err) => {
-      console.log(err)
+      renderError(`Ошибка: ${err}`)
     })
 }
 
@@ -151,7 +162,7 @@ const handleDeleteLike = (cardObj) => {
       //cardObj.delete()
     })
     .catch((err) => {
-      console.log(err)
+      renderError(`Ошибка: ${err}`)
     })
 }
 
@@ -174,7 +185,7 @@ const handleDelete = (cardObj) => {
       cardObj.delete()
     })
     .catch((err) => {
-      console.log(err)
+      renderError(`Ошибка: ${err}`)
     })
 }
 
@@ -188,6 +199,12 @@ const handleSubmitCard = () => {
   .then((res) => {
     const cardElement = addCard(res);
     cardsContainer.prepend(cardElement);
+  })
+  .catch((err) => {
+    renderError(`Ошибка: ${err}`)
+  })
+  .finally(() => {
+    popupAddCard.saving(false)
   })
 };
 
