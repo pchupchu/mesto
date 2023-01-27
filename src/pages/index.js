@@ -123,17 +123,60 @@ const  handleCardClick = (name, link) => {
 
 // add new card
 const addCard = (item) => {
-  const card = new Card(item, '.element-template', handleCardClick, userId, handleDeleteCard);
+  const card = new Card(item, '.element-template', handleCardClick, userId, handleDeleteCard, handleSetLike);
   const cardElement = card.generateCard();
   return cardElement;
 };
 
-const handleDeleteCard = (cardObj) => {
 
+
+
+
+const handleSetLike = (cardObj) => {
+  api.setLike(cardObj._cardId)
+    .then((res) => {
+      console.log(res)
+      console.log(cardObj);
+      //cardObj.delete()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+const handleDeleteLike = (cardObj) => {
+  api.deleteLike(cardObj._cardId)
+    .then((res) => {
+      console.log(res)
+      //cardObj.delete()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+
+
+
+
+const handleDeleteCard = (cardObj) => {
   confirmation.open();
   confirmation.setCard(cardObj);
 }
 
+const confirmation = new PopupWithConfirmation(popupDeleteCard, handleDelete);
+confirmation.setEventListeners();
+
+const handleDelete = (cardObj) => {
+  console.log(cardObj)
+  api.deleteCard(cardObj._cardId)
+    .then(() => {
+      cardObj.delete()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
 
 const handleSubmitCard = () => {
   const cardsObj = {
@@ -152,19 +195,9 @@ const popupAddCard = new PopupWithForm(popupAddImage, handleSubmitCard);
 popupAddCard.setEventListeners();
 
 
-const handleDelete = (cardObj) => {
-  console.log(cardObj)
-  api.deleteCard(cardObj._cardId)
-    .then(() => {
-      cardObj.delete()
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}
 
-const confirmation = new PopupWithConfirmation(popupDeleteCard, handleDelete);
-confirmation.setEventListeners();
+
+
 
 
 
