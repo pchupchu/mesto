@@ -30,6 +30,8 @@ export const formElementCard = document.querySelector('.form_card');
 export const imageNameInput = document.querySelector('#imagename');
 export const imageUrlInput = document.querySelector('#imageurl');
 
+export const popupDeleteCard = document.querySelector('.popup_type_delete-card');
+
 export const settings = {
   formSelector: '.form',
   inputSelector: '.form__item',

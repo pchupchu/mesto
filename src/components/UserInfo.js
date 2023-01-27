@@ -9,11 +9,15 @@ export default class UserInfo {
     const userInfo = {
       userName: this._userName.textContent,
       userDesc: this._userDesc.textContent,
-      userAvatar: this._userAvatar.src
+      userAvatar: this._userAvatar.src,
     };
 
     return userInfo;
   };
+
+  getUserId(user) {
+    return this._userId = user._id;
+  }
 
   setUserInfo(nameInput, jobinput) {
     this._userName.textContent = nameInput;

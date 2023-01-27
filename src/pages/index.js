@@ -6,8 +6,9 @@ import Popup from '../components/Popup';
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
+import PopupWithConfirmation from '../components/PopupWithConfirmation';
 import Api from '../components/Api';
-import { avatar, avatarInput, formElementAvatar, popupAddAvatar, btnOpenEditing, popupEditProfile, profileName, profileDesc, profileAvatar, formElementProfile, nameInput, jobInput, btnOpenAdding, popupAddImage, popupImage, cardsContainer, formElementCard, imageNameInput, imageUrlInput, settings, initialCards } from "../utils/constants.js";
+import { avatar, avatarInput, formElementAvatar, popupAddAvatar, btnOpenEditing, popupEditProfile, profileName, profileDesc, profileAvatar, formElementProfile, nameInput, jobInput, btnOpenAdding, popupAddImage, popupImage, cardsContainer, formElementCard, imageNameInput, imageUrlInput, settings, popupDeleteCard, initialCards } from "../utils/constants.js";
 
 
 const api = new Api({
@@ -18,12 +19,19 @@ const api = new Api({
   }
 });
 
+let userId;
+
 api.getProfileInfo()
 .then((res) => {
   profileName.textContent = res.name;
   profileDesc.textContent = res.about;
   profileAvatar.src = res.avatar;
+  userId = res._id;
+  profileInfo.getUserId(res)
+  console.log(userId)
 });
+
+console.log(userId)
 
 api.getInitialCards()
 .then((res) => {
@@ -40,14 +48,6 @@ api.getInitialCards()
   initialCardList.renderer();
 })
 
-
-
-
-
-
-
-
-
 // validation
 const profileValidation = new FormValidator(settings, formElementProfile);
 profileValidation.enableValidation();
@@ -58,11 +58,17 @@ newCardValidation.enableValidation();
 const avatarValidation = new FormValidator(settings, formElementAvatar);
 avatarValidation.enableValidation();
 
+// profile form
+//avatar
 const profileInfo = new UserInfo({
   userName: profileName,
   userDesc:  profileDesc,
   userAvatar: profileAvatar
 });
+
+
+
+console.log(profileInfo);
 
 const openAddAvatar = () => {
   popupAvatar.open();
@@ -81,8 +87,8 @@ const handleSubmitAvatar = () => {
 const popupAvatar = new PopupWithForm(popupAddAvatar, handleSubmitAvatar);
 popupAvatar.setEventListeners();
 
-// open edit form
-const openEditForm = () => {
+//profile info
+const openProfileForm = () => {
   popupProfile.open();
 
   const infoFromPage = profileInfo.getUserInfo();
@@ -91,10 +97,9 @@ const openEditForm = () => {
   profileValidation.resetValidation();
 };
 
-btnOpenEditing.addEventListener('click', openEditForm);
+btnOpenEditing.addEventListener('click', openProfileForm);
 
-// submit edit form
-const handleSubmitForm = () => {
+const handleProfileForm = () => {
   const user = {
     name: nameInput.value,
     about: jobInput.value
@@ -105,7 +110,7 @@ const handleSubmitForm = () => {
   })
 };
 
-const popupProfile = new PopupWithForm(popupEditProfile, handleSubmitForm);
+const popupProfile = new PopupWithForm(popupEditProfile, handleProfileForm);
 popupProfile.setEventListeners();
 
 // open add image
@@ -137,15 +142,42 @@ const handleSubmitCard = () => {
     link: imageUrlInput.value
   };
 
-  const cardElement = addCard(cardsObj);
-  initialCardList.addItem(cardElement);
+  api.setNewCard(cardsObj)
+  .then((res) => {
+    const cardElement = addCard(res);
+    cardsContainer.prepend(cardElement);
+  })
 };
 
 const popupAddCard = new PopupWithForm(popupAddImage, handleSubmitCard);
 popupAddCard.setEventListeners();
 
+
+
+
+
+
+const setDeleteIcon = (card) => {
+  confirmation.open();
+  confirmation.getIdCard(card);
+}
+
+const handleDelete = () => {
+  console.log(this);
+}
+
+const confirmation = new PopupWithConfirmation(popupDeleteCard, handleDelete);
+confirmation.setEventListeners();
+
+
+
+
+
+
+
+
 // initial cards
-const initialCardList = new Section(
+/*const initialCardList = new Section(
   {
     items: initialCards,
     renderer: (item) => {
@@ -156,6 +188,7 @@ const initialCardList = new Section(
   '.elements__list');
 
   initialCardList.renderer();
+*/
 
 
 
