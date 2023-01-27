@@ -1,12 +1,14 @@
 export default class Card {
-  constructor(item, templateSelector, handleCardClick, userId) {
+  constructor(item, templateSelector, handleCardClick, userId, handleDeleteCard) {
     this._name = item.name;
     this._link = item.link;
     this._likes = item.likes;
+    this._cardId = item._id;
     this._ownerId = item.owner._id;
     this._userId = userId;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._handleDeleteCard = handleDeleteCard;
   };
 
   _getTemplate() {
@@ -26,6 +28,7 @@ export default class Card {
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._element.querySelector('.element__title').textContent = this._name;
+    this._isItemOwner()
 
     return this._element;
   };
@@ -41,11 +44,11 @@ export default class Card {
     });
     //this._likeCount();
     this._trashBtn.addEventListener('click', () => {
-      this._deleteCard();
+      this._handleDeleteCard(this);
     });
     this._cardImage.addEventListener('click', () => {
       this._handleCardClick(this._name, this._link);
-      console.log(this._ownerId);
+      console.log(this._cardId);
     });
   };
 
@@ -64,9 +67,15 @@ export default class Card {
   }
 
   // delete card
-  _deleteCard() {
-
+  delete() {
     this._element.remove();
     this._element = null;
   };
+
+  _isItemOwner(){
+    if(this._ownerId != this._userId){
+      this._trashBtn.remove()
+      this._trashBtn = null;
+    }
+  }
 };

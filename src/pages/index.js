@@ -2,7 +2,6 @@ import './index.css';
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
-import Popup from '../components/Popup';
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
@@ -23,15 +22,12 @@ let userId;
 
 api.getProfileInfo()
 .then((res) => {
+  userId = res._id;
   profileName.textContent = res.name;
   profileDesc.textContent = res.about;
   profileAvatar.src = res.avatar;
-  userId = res._id;
-  profileInfo.getUserId(res)
-  console.log(userId)
-});
 
-console.log(userId)
+});
 
 api.getInitialCards()
 .then((res) => {
@@ -65,10 +61,6 @@ const profileInfo = new UserInfo({
   userDesc:  profileDesc,
   userAvatar: profileAvatar
 });
-
-
-
-console.log(profileInfo);
 
 const openAddAvatar = () => {
   popupAvatar.open();
@@ -131,10 +123,17 @@ const  handleCardClick = (name, link) => {
 
 // add new card
 const addCard = (item) => {
-  const card = new Card(item, '.element-template', handleCardClick);
+  const card = new Card(item, '.element-template', handleCardClick, userId, handleDeleteCard);
   const cardElement = card.generateCard();
   return cardElement;
 };
+
+const handleDeleteCard = (cardObj) => {
+
+  confirmation.open();
+  confirmation.setCard(cardObj);
+}
+
 
 const handleSubmitCard = () => {
   const cardsObj = {
@@ -153,17 +152,15 @@ const popupAddCard = new PopupWithForm(popupAddImage, handleSubmitCard);
 popupAddCard.setEventListeners();
 
 
-
-
-
-
-const setDeleteIcon = (card) => {
-  confirmation.open();
-  confirmation.getIdCard(card);
-}
-
-const handleDelete = () => {
-  console.log(this);
+const handleDelete = (cardObj) => {
+  console.log(cardObj)
+  api.deleteCard(cardObj._cardId)
+    .then(() => {
+      cardObj.delete()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 const confirmation = new PopupWithConfirmation(popupDeleteCard, handleDelete);

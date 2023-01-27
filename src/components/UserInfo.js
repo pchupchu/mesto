@@ -15,10 +15,6 @@ export default class UserInfo {
     return userInfo;
   };
 
-  getUserId(user) {
-    return this._userId = user._id;
-  }
-
   setUserInfo(nameInput, jobinput) {
     this._userName.textContent = nameInput;
     this._userDesc.textContent = jobinput;
