@@ -1,15 +1,16 @@
 export default class Card {
-  constructor(item, templateSelector, handleCardClick, userId, handleDeleteCard, handleSetLike) {
+  constructor(item, templateSelector, userId, handleCardClick, handleDeleteCard, handleSetLike, handleDeleteLike) {
     this._name = item.name;
     this._link = item.link;
     this._likes = item.likes;
-    this._cardId = item._id;
+    this.cardId = item._id;
     this._ownerId = item.owner._id;
     this._userId = userId;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleDeleteCard = handleDeleteCard;
     this._handleSetLike = handleSetLike;
+    this._handleDeleteLike = handleDeleteLike;
   };
 
   _getTemplate() {
@@ -41,11 +42,18 @@ export default class Card {
     this._cardImage = this._element.querySelector('.element__image');
 
     this._likeButton.addEventListener('click', () => {
-      this._handleSetLike(this);
-      this._activeLike();
-    });
+      if (this._likeButton.classList.contains('element__like-button_active')) {
+        this._handleDeleteLike(this);
+      } else {
+        this._handleSetLike(this);
+      }
+   });
 
-    this._likeCount();
+   this._isLiked();
+
+    // this._likeCount();
+    this._numberOfLikes.textContent = this._likes.length;
+
     this._trashBtn.addEventListener('click', () => {
       this._handleDeleteCard(this);
     });
@@ -55,21 +63,25 @@ export default class Card {
   };
 
   // like card
-  _likeCard() {
-    this._likeButton.classList.toggle('element__like-button_active');
+  _isLiked() {
+    if (this._likes.some((user) => user._id === this._userId )) {
+      this.setActiveLike()
+    } else {
+      this.setUnactiveLike()
+    }
   };
 
-  _activeLike() {
+  setActiveLike() {
     this._likeButton.classList.add('element__like-button_active');
-  }
+  };
 
-  _unactiveLike() {
+  setUnactiveLike() {
     this._likeButton.classList.remove('element__like-button_active');
-  }
+  };
 
-  _likeCount() {
-    this._numberOfLikes.textContent = this._likes.length;
-  }
+  likeCount(res) {
+    this._numberOfLikes.textContent = res.likes.length;
+  };
 
   // delete card
   delete() {

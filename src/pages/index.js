@@ -7,7 +7,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithConfirmation from '../components/PopupWithConfirmation';
 import Api from '../components/Api';
-import { avatar, avatarInput, formElementAvatar, popupAddAvatar, btnOpenEditing, popupEditProfile, profileName, profileDesc, profileAvatar, formElementProfile, nameInput, jobInput, btnOpenAdding, popupAddImage, popupImage, cardsContainer, formElementCard, imageNameInput, imageUrlInput, settings, popupDeleteCard, initialCards } from "../utils/constants.js";
+import { avatar, avatarInput, formElementAvatar, popupAddAvatar, btnOpenEditing, popupEditProfile, profileName, profileDesc, profileAvatar, formElementProfile, nameInput, jobInput, btnOpenAdding, popupAddImage, popupImage, cardsContainer, formElementCard, imageNameInput, imageUrlInput, settings, popupDeleteCard } from "../utils/constants.js";
 
 
 const api = new Api({
@@ -23,9 +23,8 @@ let userId;
 api.getProfileInfo()
 .then((res) => {
   userId = res._id;
-  profileName.textContent = res.name;
-  profileDesc.textContent = res.about;
-  profileAvatar.src = res.avatar;
+  profileInfo.setUserInfo(res.name, res.about);
+  profileInfo.setUserAvatar(res.avatar);
 });
 
 api.getInitialCards()
@@ -77,7 +76,7 @@ const handleSubmitAvatar = () => {
     renderError(`Ошибка: ${err}`)
   })
   .finally(() => {
-    popupAvatar.saving(false)
+    popupAvatar.isSaving(false)
   })
 }
 
@@ -109,7 +108,7 @@ const handleProfileForm = () => {
     renderError(`Ошибка: ${err}`)
   })
   .finally(() => {
-    popupProfile.saving(false)
+    popupProfile.isSaving(false)
   })
 };
 
@@ -134,60 +133,53 @@ const  handleCardClick = (name, link) => {
 
 // add new card
 const addCard = (item) => {
-  const card = new Card(item, '.element-template', handleCardClick, userId, handleDeleteCard, handleSetLike);
+  const card = new Card(item, '.element-template',userId, handleCardClick, handleDeleteCard, handleSetLike, handleDeleteLike);
   const cardElement = card.generateCard();
   return cardElement;
 };
 
-
-
-
-
 const handleSetLike = (cardObj) => {
-  api.setLike(cardObj._cardId)
+  api.setLike(cardObj.cardId)
     .then((res) => {
-      console.log(res)
-      console.log(cardObj);
-      //cardObj.delete()
+
+      cardObj.setActiveLike()
+      cardObj.likeCount(res)
+
     })
     .catch((err) => {
       renderError(`Ошибка: ${err}`)
     })
-}
+};
 
 const handleDeleteLike = (cardObj) => {
-  api.deleteLike(cardObj._cardId)
+  api.deleteLike(cardObj.cardId)
     .then((res) => {
-      console.log(res)
-      //cardObj.delete()
+      cardObj.setUnactiveLike()
+      cardObj.likeCount(res)
     })
     .catch((err) => {
       renderError(`Ошибка: ${err}`)
     })
-}
-
-
-
-
+};
 
 const handleDeleteCard = (cardObj) => {
   confirmation.open();
   confirmation.setCard(cardObj);
-}
+};
+
+const handleDelete = (cardObj) => {
+
+  api.deleteCard(cardObj.cardId)
+  .then((res) => {
+    cardObj.delete()
+  })
+  .catch((err) => {
+    renderError(`Ошибка: ${err}`)
+  })
+};
 
 const confirmation = new PopupWithConfirmation(popupDeleteCard, handleDelete);
 confirmation.setEventListeners();
-
-const handleDelete = (cardObj) => {
-  console.log(cardObj)
-  api.deleteCard(cardObj._cardId)
-    .then(() => {
-      cardObj.delete()
-    })
-    .catch((err) => {
-      renderError(`Ошибка: ${err}`)
-    })
-}
 
 const handleSubmitCard = () => {
   const cardsObj = {
@@ -204,42 +196,9 @@ const handleSubmitCard = () => {
     renderError(`Ошибка: ${err}`)
   })
   .finally(() => {
-    popupAddCard.saving(false)
+    popupAddCard.isSaving(false)
   })
 };
 
 const popupAddCard = new PopupWithForm(popupAddImage, handleSubmitCard);
 popupAddCard.setEventListeners();
-
-
-
-
-
-
-
-
-
-
-
-
-
-// initial cards
-/*const initialCardList = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const cardElement = addCard(item);
-      initialCardList.addItem(cardElement);
-    }
-  },
-  '.elements__list');
-
-  initialCardList.renderer();
-*/
-
-
-
-
-
-
-

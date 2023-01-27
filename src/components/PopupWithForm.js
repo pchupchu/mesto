@@ -24,21 +24,21 @@ export default class PopupWithForm extends Popup {
     this._form.reset();
   };
 
-  saving(isSaving) {
-    if(isSaving) {
+  isSaving(value) {
+    if(value) {
       this._formBtn.textContent = 'Сохранение...';
-      this._formBtn.disabled = true;
+      this._formBtn.disabled = value;
     } else {
       this._formBtn.textContent = this._formBtnText;
-      this._formBtn.disabled = false;
+      this._formBtn.disabled = value;
     }
-  }
+  };
 
   setEventListeners() {
     super.setEventListeners();
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      this.saving(true);
+      this.isSaving(true);
       this._handleSubmitForm(this._getInputValues());
       this.close();
     })
