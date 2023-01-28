@@ -68,7 +68,7 @@ const openAddAvatar = () => {
 avatar.addEventListener('click', openAddAvatar);
 
 const handleSubmitAvatar = ({avatar}) => {
-  
+
   api.setProfileAvatar(avatar)
   .then((res) => {
     profileInfo.setUserAvatar(res.avatar)
@@ -97,10 +97,6 @@ const openProfileForm = () => {
 btnOpenEditing.addEventListener('click', openProfileForm);
 
 const handleProfileForm = (user) => {
-  /*const user = {
-    name: nameInput.value,
-    about: jobInput.value
-  };*/
   api.setProfileInfo(user)
   .then((res) => {
     profileInfo.setUserInfo(res.name, res.about)
@@ -181,13 +177,10 @@ const handleDelete = (cardObj) => {
 const confirmation = new PopupWithConfirmation(popupDeleteCard, handleDelete);
 confirmation.setEventListeners();
 
-const handleSubmitCard = () => {
-  const cardsObj = {
-    name: imageNameInput.value,
-    link: imageUrlInput.value
-  };
 
-  api.setNewCard(cardsObj)
+const handleSubmitCard = (cardObj) => {
+  const {imagename, imageurl} = cardObj;
+  api.setNewCard({name: imagename, link: imageurl})
   .then((item) => {
     initialCardList.addItem(addCard(item));
 
