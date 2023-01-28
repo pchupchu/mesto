@@ -7,7 +7,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithConfirmation from '../components/PopupWithConfirmation';
 import Api from '../components/Api';
-import { avatar, avatarInput, formElementAvatar, popupAddAvatar, btnOpenEditing, popupEditProfile, profileName, profileDesc, profileAvatar, formElementProfile, nameInput, jobInput, btnOpenAdding, popupAddImage, popupImage, cardsContainer, formElementCard, imageNameInput, imageUrlInput, settings, popupDeleteCard } from "../utils/constants.js";
+import { avatar, formElementAvatar, popupAddAvatar, btnOpenEditing, popupEditProfile, profileName, profileDesc, profileAvatar, formElementProfile, btnOpenAdding, popupAddImage, popupImage, formElementCard, settings, popupDeleteCard } from "../utils/constants.js";
 
 
 const api = new Api({
@@ -55,10 +55,10 @@ const openAddAvatar = () => {
 avatar.addEventListener('click', openAddAvatar);
 
 const handleSubmitAvatar = ({avatar}) => {
-
   api.setProfileAvatar(avatar)
   .then((res) => {
-    profileInfo.setUserInfo(res)
+    profileInfo.setUserInfo(res);
+    popupAvatar.close();
   })
   .catch((err) => {
     renderError(`Ошибка: ${err}`)
@@ -75,9 +75,8 @@ popupAvatar.setEventListeners();
 const openProfileForm = () => {
   popupProfile.open();
 
-  const infoFromPage = profileInfo.getUserInfo();
-  nameInput.value = infoFromPage.userName;
-  jobInput.value = infoFromPage.userDesc;
+  const {userName, userDesc} = profileInfo.getUserInfo();
+  popupProfile.setInputValues({name: userName, about: userDesc});
   profileValidation.resetValidation();
 };
 
@@ -86,8 +85,8 @@ btnOpenEditing.addEventListener('click', openProfileForm);
 const handleProfileForm = (user) => {
   api.setProfileInfo(user)
   .then((res) => {
-    console.log(res);
-    profileInfo.setUserInfo(res)
+    profileInfo.setUserInfo(res);
+    popupProfile.close();
   })
   .catch((err) => {
     renderError(`Ошибка: ${err}`)
@@ -172,6 +171,7 @@ const handleSubmitCard = (cardObj) => {
   api.setNewCard({name: imagename, link: imageurl})
   .then((item) => {
     initialCardList.addItem(addCard(item));
+    popupAddCard.close();
   })
   .catch((err) => {
     renderError(`Ошибка: ${err}`)
