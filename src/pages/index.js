@@ -27,19 +27,19 @@ api.getProfileInfo()
   profileInfo.setUserAvatar(res.avatar);
 });
 
+const initialCardList = new Section(
+  {
+    renderer: (item) => {
+      const cardElement = addCard(item);
+      initialCardList.addItem(cardElement);
+    }
+  },
+  '.elements__list');
+
+
 api.getInitialCards()
 .then((res) => {
-  const initialCardList = new Section(
-    {
-      items: res,
-      renderer: (item) => {
-        const cardElement = addCard(item);
-        initialCardList.addItem(cardElement);
-      }
-    },
-    '.elements__list');
-
-  initialCardList.renderer();
+  initialCardList.renderCards(res);
 })
 
 // validation
@@ -95,11 +95,11 @@ const openProfileForm = () => {
 
 btnOpenEditing.addEventListener('click', openProfileForm);
 
-const handleProfileForm = () => {
-  const user = {
+const handleProfileForm = (user) => {
+  /*const user = {
     name: nameInput.value,
     about: jobInput.value
-  };
+  };*/
   api.setProfileInfo(user)
   .then((res) => {
     profileInfo.setUserInfo(res.name, res.about)
@@ -168,7 +168,6 @@ const handleDeleteCard = (cardObj) => {
 };
 
 const handleDelete = (cardObj) => {
-
   api.deleteCard(cardObj.cardId)
   .then(() => {
     cardObj.delete()
@@ -188,9 +187,11 @@ const handleSubmitCard = () => {
   };
 
   api.setNewCard(cardsObj)
-  .then((res) => {
-    const cardElement = addCard(res);
-    cardsContainer.prepend(cardElement);
+  .then((item) => {
+    initialCardList.addItem(addCard(item));
+
+    //const cardElement = addCard(item);
+    //cardsContainer.prepend(cardElement);
   })
   .catch((err) => {
     renderError(`Ошибка: ${err}`)
