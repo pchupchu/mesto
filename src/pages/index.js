@@ -67,8 +67,9 @@ const openAddAvatar = () => {
 
 avatar.addEventListener('click', openAddAvatar);
 
-const handleSubmitAvatar = () => {
-  api.setProfileAvatar(avatarInput.value)
+const handleSubmitAvatar = ({avatar}) => {
+  
+  api.setProfileAvatar(avatar)
   .then((res) => {
     profileInfo.setUserAvatar(res.avatar)
   })
