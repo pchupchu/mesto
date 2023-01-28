@@ -170,7 +170,7 @@ const handleDeleteCard = (cardObj) => {
 const handleDelete = (cardObj) => {
 
   api.deleteCard(cardObj.cardId)
-  .then((res) => {
+  .then(() => {
     cardObj.delete()
   })
   .catch((err) => {
