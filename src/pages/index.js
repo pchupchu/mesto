@@ -20,13 +20,6 @@ const api = new Api({
 
 let userId;
 
-api.getProfileInfo()
-.then((res) => {
-  userId = res._id;
-  profileInfo.setUserInfo(res.name, res.about);
-  profileInfo.setUserAvatar(res.avatar);
-});
-
 const initialCardList = new Section(
   {
     renderer: (item) => {
@@ -35,12 +28,6 @@ const initialCardList = new Section(
     }
   },
   '.elements__list');
-
-
-api.getInitialCards()
-.then((res) => {
-  initialCardList.renderCards(res);
-})
 
 // validation
 const profileValidation = new FormValidator(settings, formElementProfile);
@@ -71,7 +58,7 @@ const handleSubmitAvatar = ({avatar}) => {
 
   api.setProfileAvatar(avatar)
   .then((res) => {
-    profileInfo.setUserAvatar(res.avatar)
+    profileInfo.setUserInfo(res)
   })
   .catch((err) => {
     renderError(`Ошибка: ${err}`)
@@ -99,7 +86,8 @@ btnOpenEditing.addEventListener('click', openProfileForm);
 const handleProfileForm = (user) => {
   api.setProfileInfo(user)
   .then((res) => {
-    profileInfo.setUserInfo(res.name, res.about)
+    console.log(res);
+    profileInfo.setUserInfo(res)
   })
   .catch((err) => {
     renderError(`Ошибка: ${err}`)
@@ -184,9 +172,6 @@ const handleSubmitCard = (cardObj) => {
   api.setNewCard({name: imagename, link: imageurl})
   .then((item) => {
     initialCardList.addItem(addCard(item));
-
-    //const cardElement = addCard(item);
-    //cardsContainer.prepend(cardElement);
   })
   .catch((err) => {
     renderError(`Ошибка: ${err}`)
@@ -198,3 +183,15 @@ const handleSubmitCard = (cardObj) => {
 
 const popupAddCard = new PopupWithForm(popupAddImage, handleSubmitCard);
 popupAddCard.setEventListeners();
+
+const promises = [api.getProfileInfo(), api.getInitialCards()];
+
+Promise.all(promises)
+  .then(([userData, cards]) => {
+    profileInfo.setUserInfo(userData);
+    userId = userData._id;
+    initialCardList.renderCards(cards);
+  })
+  .catch((err) => {
+    renderError(`Ошибка: ${err}`)
+  })

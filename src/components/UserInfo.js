@@ -15,12 +15,9 @@ export default class UserInfo {
     return userInfo;
   };
 
-  setUserInfo(nameInput, jobinput) {
-    this._userName.textContent = nameInput;
-    this._userDesc.textContent = jobinput;
-  };
-
-  setUserAvatar(avatarInput) {
-    this._userAvatar.src = avatarInput;
+  setUserInfo(res) {
+    this._userName.textContent = res.name;
+    this._userDesc.textContent = res.about;
+    this._userAvatar.src = res.avatar;
   };
 }

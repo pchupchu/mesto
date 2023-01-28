@@ -43,12 +43,12 @@ export default class PopupWithForm extends Popup {
 
       this.isSaving(true);
       //console.log(this._handleSubmitForm(this._getInputValues()));
-      this._handleSubmitForm(this._getInputValues());
+      this._handleSubmitForm(this._getInputValues())
         //.then(() => this.close())
       this.close()
-        //.finally(() => {
-          //this._formBtn.textContent = initialText;
-        //})
+        // .finally(() => {
+        //   this._formBtn.textContent = initialText;
+        // })
     })
   };
 }
