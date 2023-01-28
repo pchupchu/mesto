@@ -42,8 +42,9 @@ export default class PopupWithForm extends Popup {
       //this._formBtn.textContent = 'Сохранение...';
 
       this.isSaving(true);
+      //console.log(this._handleSubmitForm(this._getInputValues()));
       this._handleSubmitForm(this._getInputValues());
-       // .then(() => this.close())
+        //.then(() => this.close())
       this.close()
         //.finally(() => {
           //this._formBtn.textContent = initialText;

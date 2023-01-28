@@ -168,6 +168,7 @@ const handleDelete = (cardObj) => {
   api.deleteCard(cardObj.cardId)
   .then(() => {
     cardObj.delete()
+    confirmation.close();
   })
   .catch((err) => {
     renderError(`Ошибка: ${err}`)
